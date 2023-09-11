@@ -1,0 +1,90 @@
+<section id="interfaceCRUD">
+    <div class="table-div mat-elevation-z8">
+        <mat-divider></mat-divider>
+        <h1>Projects Database</h1>
+        <mat-divider></mat-divider>
+
+        <table mat-table [dataSource]="projects" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> ID </th>
+                <td mat-cell *matCellDef="let project">{{ project.id }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="reference">
+                <th mat-header-cell *matHeaderCellDef>Reference</th>
+                <td mat-cell *matCellDef="let project">{{ project.reference }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef>Description</th>
+                <td mat-cell *matCellDef="let project">{{ project.description }}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="rowClick(row)"></tr>
+
+        </table>
+    </div>
+
+    <div class="table-div table-edit mat-elevation-z8">
+        <mat-divider></mat-divider>
+        <h1> Edit Line </h1>
+        <mat-divider></mat-divider>
+
+        <table mat-table [dataSource]="[copySelectedRow]" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef>ID</th>
+                <td class="inputID" mat-cell *matCellDef="let row">
+                    <mat-form-field>
+                        <input [disabled]="true" matInput [(ngModel)]="copySelectedRow.id"
+                            (input)="updateId(copySelectedRow.id)">
+                    </mat-form-field>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="reference">
+                <th mat-header-cell *matHeaderCellDef>reference</th>
+                <td class="inputReference" mat-cell *matCellDef="let row">
+                    <mat-form-field>
+                        <input matInput [(ngModel)]="copySelectedRow.reference"
+                            (input)="updateReference(copySelectedRow.reference)">
+                    </mat-form-field>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+
+                <th mat-header-cell *matHeaderCellDef>Description</th>
+                <td class="inputDescription" mat-cell *matCellDef="let row">
+                    <mat-form-field class="custom-input">
+                        <input matInput [(ngModel)]="copySelectedRow.description"
+                            (input)="updateDescription(copySelectedRow.description)">
+                    </mat-form-field>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+
+    <div class="table-div">
+        <section>
+            <div class="create-delete flex">
+                <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [value]="'bold'">
+                    <mat-button-toggle value="bold" (change)="disableEdit()"> Read-only </mat-button-toggle>
+                    <mat-button-toggle value="italic" (change)="enableEdit()"> Edit </mat-button-toggle>
+                </mat-button-toggle-group>
+
+                <button id="create" mat-raised-button color="primary" class="mat-primary" [disabled]="!editState"
+                    (click)="createRow()"> Add Row </button>
+                <button id="update" mat-raised-button color="accent" class="mat-accent" [disabled]="!editState"
+                    (click)="updateRow()"> Update Row </button>
+                <button id="delete" mat-raised-button color="warn" class="mat-warn" [disabled]="!editState"
+                    (click)="deleteRow()"> Delete Row </button>
+            </div>
+        </section>
+    </div>
+</section>
